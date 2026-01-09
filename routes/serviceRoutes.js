@@ -34,7 +34,7 @@ serviceRoute.post("/deleteVendorServices", deleteVendorService);
 serviceRoute.post("/addServicesCategry", addVendorServicesNew);
 
 // changed here -> GET
-serviceRoute.get("/getServiceCategry", getVendorServicesGrouped);
+serviceRoute.get("/getServiceCategrys", getVendorServicesGrouped);
 // you had a space in the path - removed it and use POST or DELETE properly
 serviceRoute.post("/deleteVendorServiceNew", deleteVendorServiceNew);
 
