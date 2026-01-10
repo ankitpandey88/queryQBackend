@@ -36,7 +36,7 @@ const {
     createLocation,
     getLocationById,
     createAttendance,
-    getAttendanceByEmployeeId
+    getAttendanceByEmployeeId,getAddress
 } = require("../controllers/tataPoweredController");
 
 const tataPoweredRoute = express.Router();
@@ -51,5 +51,6 @@ tataPoweredRoute.get("/location/:id", getLocationById);
 /* ===================== ATTENDANCE ===================== */
 tataPoweredRoute.post("/attendance", createAttendance);
 tataPoweredRoute.get("/attendance/:employee_id", getAttendanceByEmployeeId);
+tataPoweredRoute.get("/getAddress", getAddress);
 
 module.exports = tataPoweredRoute;

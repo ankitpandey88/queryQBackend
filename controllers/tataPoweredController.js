@@ -232,6 +232,34 @@ const getAllAttendance = async (req, res) => {
     }
 };
 
+const getAddress = async (req, res) => {
+    try {
+        const query = `
+            SELECT 
+                latitude,
+                longitude,
+                address,
+                pin_code
+            FROM locationmaster 
+        `;
+
+        const result = await pool.query(query);
+
+        return res.status(200).json({
+            success: true,
+            count: result.rows.length,
+            data: result.rows
+        });
+
+    } catch (error) {
+        console.error("Get Address Error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
+
 
 const getAttendanceByEmployeeId = async (req, res) => {
     try {
@@ -290,7 +318,7 @@ const getAttendanceByEmployeeId = async (req, res) => {
 module.exports = {
     getLogin, createLocation,
     getLocationById, createAttendance,
-    getAllAttendance, getAttendanceByEmployeeId
+    getAllAttendance, getAttendanceByEmployeeId, getAddress
 };
 
 
