@@ -7,10 +7,11 @@ const pool = require("./config/db"); // PostgreSQL connection
 
 const router = require("./routes/vendorRoutes");
 const uresRouter = require("./routes/userRoutes");
-const serviceRouter = require("./routes/serviceRoutes");
+// const serviceRouter = require("./routes/serviceRoutes");
 
 const notificationRouter = require("./routes/notificationRouter");
 const bookingRouter = require("./routes/bookingRouter");
+const tataPoweredeRoute = require("./routes/tataPoweredRoute");
 
 // Initialize Express app
 const app = express();
@@ -33,7 +34,7 @@ app.use("/api/users", uresRouter);
 
 //Api for Add vendor services
 
-app.use("/api",serviceRouter);
+// app.use("/api",serviceRouter);
 
 
 
@@ -45,6 +46,10 @@ app.use('/api', notificationRouter);
 // booking router
 
 app.use('/api', bookingRouter);
+
+// tataPowered router
+
+app.use('/api', tataPoweredeRoute)
 
 // Start the server
 app.listen(port, () => {
