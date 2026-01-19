@@ -14,7 +14,7 @@ const getLogin = async (req, res) => {
 
         // Query database
         const query = `
-            SELECT employee_id, name, email 
+            SELECT * 
             FROM employemaster 
             WHERE employee_id = $1 AND password = $2
         `;
@@ -29,11 +29,14 @@ const getLogin = async (req, res) => {
             });
         }
 
+        const user = result.rows[0];
+        delete user.password;
+
         // Success
         return res.status(200).json({
             success: true,
             message: "Login successful",
-            data: result.rows[0]
+            data: user
         });
 
     } catch (error) {
@@ -313,12 +316,129 @@ const getAttendanceByEmployeeId = async (req, res) => {
 
 
 
+// generate random numeric string
+const generateRandomNumber = (length) => {
+    let num = "";
+    for (let i = 0; i < length; i++) {
+        num += Math.floor(Math.random() * 10);
+    }
+    return num;
+};
+
+// ensure employee_id is unique
+const generateUniqueEmployeeId = async () => {
+    let employee_id;
+    let exists = true;
+
+    while (exists) {
+        employee_id = generateRandomNumber(4);
+        const check = await pool.query(
+            "SELECT 1 FROM employemaster WHERE employee_id = $1",
+            [employee_id]
+        );
+        exists = check.rows.length > 0;
+    }
+
+    return employee_id;
+};
+
+// ensure password is unique
+const generateUniquePassword = async () => {
+    let password;
+    let exists = true;
+
+    while (exists) {
+        password = generateRandomNumber(6);
+        const check = await pool.query(
+            "SELECT 1 FROM employemaster WHERE password = $1",
+            [password]
+        );
+        exists = check.rows.length > 0;
+    }
+
+    return password;
+};
+
+const createEmployee = async (req, res) => {
+    try {
+        const {
+            name,
+            age,
+            gender,
+            address,
+            email,
+            phone_number,
+            latitude,
+            longitude,
+            pincode,
+            state,
+            city
+        } = req.body;
+
+        // generate unique values
+        const employee_id = await generateUniqueEmployeeId();
+        const password = await generateUniquePassword();
+
+        const query = `
+      INSERT INTO employemaster (
+        employee_id,
+        name,
+        age,
+        gender,
+        address,
+        email,
+        phone_number,
+        password,
+        latitude,
+        longitude,
+        pincode,
+        state,
+        city
+      )
+      VALUES (
+        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13
+      )
+    `;
+
+        await pool.query(query, [
+            employee_id,
+            name,
+            age,
+            gender,
+            address,
+            email,
+            phone_number,
+            password,
+            latitude,
+            longitude,
+            pincode,
+            state,
+            city
+        ]);
+
+        res.status(201).json({
+            message: "Employee created successfully",
+            employee_id,
+            password
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+
+
+
+
+
 
 
 module.exports = {
     getLogin, createLocation,
     getLocationById, createAttendance,
-    getAllAttendance, getAttendanceByEmployeeId, getAddress
+    getAllAttendance, getAttendanceByEmployeeId, getAddress, createEmployee
 };
 
 

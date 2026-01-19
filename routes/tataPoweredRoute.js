@@ -1,32 +1,4 @@
 
-// // const express = require("express");
-
-// // const {  getLogin } = require("../controllers/tataPoweredController");
-
-// // const tataPoweredRoute = express.Router();
-
-
-// // tataPoweredRoute.post("/login", getLogin);
-
-// // module.exports = tataPoweredRoute;
-
- 
-//  const express = require("express");
-
-// const { getLogin,createLocation, getLocationById } = require("../controllers/tataPoweredController");
-
-
-// const tataPoweredRoute = express.Router();
-
-// // Login API
-// tataPoweredRoute.post("/login", getLogin);
-
-// // Location APIs
-// tataPoweredRoute.post("/location", createLocation);
-// tataPoweredRoute.get("/location/:id", getLocationById);
-
-// module.exports = tataPoweredRoute;
-
 
 
 const express = require("express");
@@ -36,13 +8,15 @@ const {
     createLocation,
     getLocationById,
     createAttendance,
-    getAttendanceByEmployeeId,getAddress
+    getAttendanceByEmployeeId,getAddress,
+    createEmployee
 } = require("../controllers/tataPoweredController");
 
 const tataPoweredRoute = express.Router();
 
 /* ===================== AUTH ===================== */
 tataPoweredRoute.post("/login", getLogin);
+tataPoweredRoute.post("/signup", createEmployee);
 
 /* ===================== LOCATION ===================== */
 tataPoweredRoute.post("/location", createLocation);

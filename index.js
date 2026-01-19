@@ -12,6 +12,7 @@ const uresRouter = require("./routes/userRoutes");
 const notificationRouter = require("./routes/notificationRouter");
 const bookingRouter = require("./routes/bookingRouter");
 const tataPoweredeRoute = require("./routes/tataPoweredRoute");
+const evStationRoute = require("./routes/evStationRoute");
 
 // Initialize Express app
 const app = express();
@@ -50,6 +51,9 @@ app.use('/api', bookingRouter);
 // tataPowered router
 
 app.use('/api', tataPoweredeRoute)
+
+// EV Station router
+app.use('/api', evStationRoute);
 
 // Start the server
 app.listen(port, () => {

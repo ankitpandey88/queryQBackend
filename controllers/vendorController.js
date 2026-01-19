@@ -4,66 +4,7 @@ const axios = require("axios");
 const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
 
-// const registerVendor = async (req, res) => {
-//   try {
-//     const {
-//       name,
-//       enterprise_name,
-//       email,
-//       contact_number,
-//       state,
-//       city,
-//       pincode,
-//       full_address,
-//       service_type,
-//       years_of_experience,
-//       personal_intro,
-//       password,
-//       exterior_image,
-//       interior_image,
-//     } = req.body;
 
-//     const exteriorImageUrl = exterior_image ? String(exterior_image) : null;
-//     const interiorImageUrl = interior_image ? String(interior_image) : null;
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // Insert into database
-//     const result = await pool.query(
-//       `INSERT INTO vendors (
-//         name, enterprise_name, email, contact_number, state, city, pincode, 
-//         full_address, service_type, exterior_image, interior_image, years_of_experience, 
-//         personal_intro, password, status
-//       ) 
-//       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) 
-//       RETURNING *`,
-//       [
-//         name,
-//         enterprise_name,
-//         email,
-//         contact_number,
-//         state,
-//         city,
-//         pincode,
-//         full_address,
-//         service_type,
-//         exteriorImageUrl,
-//         interiorImageUrl,
-//         years_of_experience,
-//         personal_intro,
-//         hashedPassword,
-//         'pending'  // Default status
-//       ]
-//     );
-
-//     res.status(201).json({
-//       message: "Vendor registered successfully, awaiting admin approval.",
-//       vendor: result.rows[0],
-//     });
-//   } catch (error) {
-//     console.error("Error registering vendor:", error);
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// };
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
