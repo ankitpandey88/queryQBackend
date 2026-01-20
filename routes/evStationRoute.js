@@ -5,7 +5,8 @@ const {
     getEvStationById,
     updateEvStation,
     deleteEvStation,
-    createBaseLocation
+    createBaseLocation,
+    getDailyDistanceReport
 } = require("../controllers/evStationController");
 
 const evStationRoute = express.Router();
@@ -18,5 +19,6 @@ evStationRoute.delete("/deleteEvStation/:id", deleteEvStation);
 
 /////////////////////////////////////////////
 evStationRoute.post("/createBaseLocation", createBaseLocation);
+evStationRoute.get("/getDailyDistanceReport",getDailyDistanceReport);
 
 module.exports = evStationRoute;

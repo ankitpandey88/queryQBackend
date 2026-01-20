@@ -223,6 +223,49 @@ const createBaseLocation = async (req, res) => {
 };
 
 
+const getDailyDistanceReport = async (req, res) => {
+    try {
+        const query = `
+            SELECT
+                a.employee_id,
+                DATE(a.punchin_time) AS attendance_date,
+                COUNT(DISTINCT a.evstationid) AS stations_visited,
+                ROUND(
+                    SUM(
+                        6371 * acos(
+                            cos(radians(b.latitude)) * cos(radians(a.latitude)) *
+                            cos(radians(a.longitude) - radians(b.longitude)) +
+                            sin(radians(b.latitude)) * sin(radians(a.latitude))
+                        )
+                    )::numeric, 2
+                ) AS total_distance_km
+            FROM attendancemaster a
+            JOIN base_location b
+                ON a.employee_id = b.employee_id::INTEGER
+            GROUP BY a.employee_id, DATE(a.punchin_time)
+            ORDER BY a.employee_id, attendance_date;
+        `;
+
+        const result = await pool.query(query);
+
+        return res.status(200).json({
+            success: true,
+            message: "Daily distance report fetched successfully",
+            count: result.rows.length,
+            data: result.rows
+        });
+
+    } catch (error) {
+        console.error("Daily Distance Report Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
+
+
 
 
 module.exports = {
@@ -230,5 +273,5 @@ module.exports = {
     getAllEvStations,
     getEvStationById,
     updateEvStation,
-    deleteEvStation,createBaseLocation
+    deleteEvStation,createBaseLocation, getDailyDistanceReport
 };
